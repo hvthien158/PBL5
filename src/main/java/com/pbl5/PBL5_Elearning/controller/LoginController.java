@@ -1,5 +1,7 @@
 package com.pbl5.PBL5_Elearning.controller;
 
+import com.pbl5.PBL5_Elearning.entity.Users;
+import com.pbl5.PBL5_Elearning.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import com.pbl5.PBL5_Elearning.payload.UserRequest;
 @RestController
 @RequestMapping("/api")
 public class LoginController {
+
+	@Autowired
+	UserServiceImp userServiceImp;
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -36,11 +41,53 @@ public class LoginController {
 		
 		String jwtToken = jwtProvider.generateToken(user.getUsername());
 		
-		return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
+		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 8 * 60 * 60 * 1000), HttpStatus.OK);
 	}
-	
-	@GetMapping("test")
-	public String test(){
-		return "test";
+
+	class Token{
+		private String access_token;
+		private String token_type;
+		private Users data;
+		private long expires_in;
+
+		public Token(String access_token, String token_type, Users data, long expires_in) {
+			this.access_token = access_token;
+			this.token_type = token_type;
+			this.data = data;
+			this.expires_in = expires_in;
+		}
+
+		public String getAccess_token() {
+			return access_token;
+		}
+
+		public void setAccess_token(String access_token) {
+			this.access_token = access_token;
+		}
+
+		public String getToken_type() {
+			return token_type;
+		}
+
+		public void setToken_type(String token_type) {
+			this.token_type = token_type;
+		}
+
+		public Users getData() {
+			return data;
+		}
+
+		public void setData(Users data) {
+			this.data = data;
+		}
+
+		public long getExpires_in() {
+			return expires_in;
+		}
+
+		public void setExpires_in(long expires_in) {
+			this.expires_in = expires_in;
+		}
 	}
+
 }

@@ -2,6 +2,7 @@ package com.pbl5.PBL5_Elearning.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,12 @@ public class UserService implements UserServiceImp{
 		// TODO Auto-generated method stub
 		return userRepository.findByUsername(username);
 	}
+
+	@Override
+	public List<Map<String, ?>> getUserById(String id) {
+		return userRepository.customFindById(id);
+	}
+
 
 	@Override
 	public List<Users> findAllUsers() {
