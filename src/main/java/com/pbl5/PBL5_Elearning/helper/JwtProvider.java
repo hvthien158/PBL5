@@ -20,7 +20,7 @@ public class JwtProvider {
     private final String JWT_SECRET = "bmd1eWVudGhpaG9hbmd2YW5uZ3V5ZW50aGlob2FuZ3Zhbm5ndXllbnRoaWhvYW5ndmFu";
 
     //Thời gian có hiệu lực của chuỗi jwt
-    private final long JWT_EXPIRATION = 604800000L;
+    private final long JWT_EXPIRATION = 24 * 60 * 60 * 1000;
     
     Gson gson = new Gson();
 

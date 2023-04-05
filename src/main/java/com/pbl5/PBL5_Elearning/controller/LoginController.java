@@ -41,7 +41,7 @@ public class LoginController {
 		
 		String jwtToken = jwtProvider.generateToken(user.getUsername());
 		
-		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 8 * 60 * 60 * 1000), HttpStatus.OK);
+		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
 	}
 
 	class Token{
