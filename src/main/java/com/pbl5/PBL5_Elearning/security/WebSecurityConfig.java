@@ -48,13 +48,13 @@ public class WebSecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		http.csrf().disable()
+		http.cors().disable().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and().authorizeHttpRequests()
 			.requestMatchers("/api/login").permitAll()
 			.anyRequest().authenticated()
 			.and().addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
-			
+
 			
 		
 		
