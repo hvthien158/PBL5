@@ -10,11 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
 import com.pbl5.PBL5_Elearning.payload.UserRequest;
@@ -33,16 +29,17 @@ public class LoginController {
 	JwtProvider jwtProvider;
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody UserRequest user){
-		System.out.println(user.getUsername() + ", " + user.getPassword());
-		Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-				);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+	public ResponseEntity<?> login(@RequestBody String user){
+		System.out.println(user);
+//		Authentication authentication = authenticationManager.authenticate(
+//					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+//				);
+//		SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//		String jwtToken = jwtProvider.generateToken(user.getUsername());
 		
-		String jwtToken = jwtProvider.generateToken(user.getUsername());
-		
-		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
+//		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
+		return new ResponseEntity<String>("abc", HttpStatus.OK);
 	}
 
 	class Token{
