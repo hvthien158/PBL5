@@ -33,8 +33,8 @@ public class LoginController {
 	public ResponseEntity<?> login(@RequestBody UserRequest user){
 		System.out.println(user.getUsername() + "," + user.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-				);
+				new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+		);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String jwtToken = jwtProvider.generateToken(user.getUsername());

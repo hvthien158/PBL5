@@ -35,31 +35,35 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String token = getJwtToken(request);
-		
-		if (jwtProvider.validationToken(token)) {
-			//Token hợp lệ
-			String jsonData = jwtProvider.decodeToken(token);
-			System.out.println("Kiemtra data token: " + jsonData);
-			
-//			User user = gson.fromJson(jsonData, User.class);
-			User userDetail = (User) userService.loadUserByUsername(jsonData);
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
-			System.out.println(userDetail.getAuthorities());
-			authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-			
-//			Authentication authentication = authenticationManager.authenticate(authenticationToken);
-			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-			
-			//Gọi lại hàm đăng nhập mặc định của Spring Security
-		}else {
-			//Token không phải do hệ thống sinh ra
-			System.out.println("Auth : Đăng nhập thất bại");
+		try {
+			String token = getJwtToken(request);
+
+			if (jwtProvider.validationToken(token)) {
+				//Token hợp lệ
+				String jsonData = jwtProvider.decodeToken(token);
+				System.out.println("Kiemtra data token: " + jsonData);
+
+//				User user = gson.fromJson(jsonData, User.class);
+				User userDetail = (User) userService.loadUserByUsername(jsonData);
+				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
+				System.out.println(userDetail.getAuthorities());
+				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+//				Authentication authentication = authenticationManager.authenticate(authenticationToken);
+				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+				//Gọi lại hàm đăng nhập mặc định của Spring Security
+			}else {
+				//Token không phải do hệ thống sinh ra
+				System.out.println("Auth : Đăng nhập thất bại");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Error");
+		} finally {
+			//Cho phép đi tiếp vào đường dẫn đang gọi
+			filterChain.doFilter(request, response);
 		}
-		
-		//Cho phép đi tiếp vào đường dẫn đang gọi
-		filterChain.doFilter(request, response);
-		
 	}
 
 	private String getJwtToken(HttpServletRequest request) {
