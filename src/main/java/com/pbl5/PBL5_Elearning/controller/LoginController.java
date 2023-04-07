@@ -30,17 +30,16 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<?> login(@RequestBody String user){
-		System.out.println(user);
-//		Authentication authentication = authenticationManager.authenticate(
-//					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-//				);
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//		String jwtToken = jwtProvider.generateToken(user.getUsername());
+	public ResponseEntity<?> login(@RequestBody User user){
+		System.out.println(user.getUsername() + "," + user.getPassword());
+		Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+				);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		String jwtToken = jwtProvider.generateToken(user.getUsername());
 		
-//		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
-		return new ResponseEntity<String>("abc", HttpStatus.OK);
+		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
 	}
 
 	class Token{
