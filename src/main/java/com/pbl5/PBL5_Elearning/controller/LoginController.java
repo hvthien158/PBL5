@@ -30,7 +30,7 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<?> login(@RequestBody User user){
+	public ResponseEntity<?> login(@RequestBody UserRequest user){
 		System.out.println(user.getUsername() + "," + user.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
