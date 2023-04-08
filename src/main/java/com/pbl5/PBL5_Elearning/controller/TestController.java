@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/test")
-public class TestsController {
+public class TestController {
     @Autowired
     TestsServiceImp testsServiceImp;
     @GetMapping("/all")

@@ -58,6 +58,9 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Set<User_Course> listUserCourses;
 
+    @OneToMany(mappedBy = "users")
+    private Set<Bookmarks> listBookmarks;
+
     public String getId() {
         return id;
     }
@@ -146,8 +149,9 @@ public class Users {
         this.avatar = avatar;
     }
 
-    public Roles getRoles() {
-        return roles;
+    public int getRoles() {
+        //MySQL tự động tăng bắt đầu từ 1, bên FE xử lí mảng bắt đầu từ 0 nên trả về giá trị trừ 1 để đồng bộ
+        return roles.getId() - 1;
     }
 
     public void setRoles(Roles roles) {
