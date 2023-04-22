@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,21 +19,21 @@ public class CourseController {
     @Autowired
     CoursesServiceImp coursesServiceImp;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<?> findAllCourse() {
         try {
-            return new ResponseEntity<List<Map<String, ?>>>(coursesServiceImp.findAll(), HttpStatus.OK);
+            return new ResponseEntity<List<Courses>>(coursesServiceImp.find(), HttpStatus.OK);
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<?> find() {
-        try {
-            return new ResponseEntity<List<Courses>>(coursesServiceImp.find(), HttpStatus.OK);
-        }catch (Exception e) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findCourseById(@PathVariable int id){
+        try{
+            return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
         }

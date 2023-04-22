@@ -24,4 +24,9 @@ public class CoursesService implements CoursesServiceImp{
     public List<Courses> find() {
         return coursesRepository.findAll();
     }
+
+    @Override
+    public Courses findById(int id) {
+        return coursesRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+    }
 }

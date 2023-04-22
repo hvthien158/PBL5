@@ -9,4 +9,6 @@ public interface UserServiceImp {
 	public List<Users> findAllUsers();
 	public Users findUserByUsername(String username);
 	public List<Map<String, ?>> getUserById(String id);
+
+	public Users findById(String id);
 }

@@ -59,6 +59,9 @@ public class Users {
     private Set<User_Course> listUserCourses;
 
     @OneToMany(mappedBy = "users")
+    private Set<Blogs> listBlogs;
+
+    @OneToMany(mappedBy = "users")
     private Set<Bookmarks> listBookmarks;
 
     public String getId() {

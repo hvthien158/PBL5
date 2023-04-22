@@ -23,6 +23,10 @@ public class Blogs {
     @OneToMany(mappedBy = "blogs")
     private Set<Bookmarks> listBookmarks;
 
+    @ManyToOne
+    @JoinColumn(name = "user_post_id")
+    private Users users;
+
     public int getId() {
         return id;
     }
@@ -53,5 +57,13 @@ public class Blogs {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUsers() {
+        return users.getId();
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 }

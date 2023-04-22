@@ -52,7 +52,8 @@ public class WebSecurityConfig {
 		http.csrf().disable().cors().and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and().authorizeHttpRequests()
-			.requestMatchers("/api/login").permitAll()
+			.requestMatchers("/login").permitAll()
+			.requestMatchers("/blog/all").permitAll()
 			.anyRequest().authenticated()
 			.and().addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 

@@ -16,7 +16,7 @@ import com.pbl5.PBL5_Elearning.helper.JwtProvider;
 import com.pbl5.PBL5_Elearning.payload.UserRequest;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/login")
 public class LoginController {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	JwtProvider jwtProvider;
 	
-	@PostMapping("/login")
+	@PostMapping("")
 	@CrossOrigin
 	public ResponseEntity<?> login(@RequestBody UserRequest user){
 		System.out.println(user.getUsername() + "," + user.getPassword());

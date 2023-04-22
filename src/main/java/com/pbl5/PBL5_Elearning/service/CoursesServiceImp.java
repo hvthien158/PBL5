@@ -8,4 +8,6 @@ import java.util.Map;
 public interface CoursesServiceImp {
     public List<Map<String, ?>> findAll();
     public List<Courses> find();
+
+    public Courses findById(int id);
 }
