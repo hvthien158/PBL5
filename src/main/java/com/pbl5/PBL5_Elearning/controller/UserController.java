@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     UserServiceImp userServiceImp;
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUserDetail(@PathVariable String id){
         return new ResponseEntity<List<Map<String, ?>>>(userServiceImp.getUserById(id), HttpStatus.OK);
     }
