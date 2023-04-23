@@ -11,13 +11,16 @@ public class Lesson {
     @Column(name = "lesson_id")
     private int id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "linkvideo")
-    private String linkVideo;
+    @Column(name = "video")
+    private String video;
 
-    @Column(name = "createat")
+    @Column(name = "grammar")
+    private String grammar;
+
+    @Column(name = "create_at")
     private String createAt;
 
     @ManyToOne
@@ -32,20 +35,28 @@ public class Lesson {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLinkVideo() {
-        return linkVideo;
+    public String getVideo() {
+        return video;
     }
 
-    public void setLinkVideo(String linkVideo) {
-        this.linkVideo = linkVideo;
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getGrammar() {
+        return grammar;
+    }
+
+    public void setGrammar(String grammar) {
+        this.grammar = grammar;
     }
 
     public String getCreateAt() {
@@ -56,9 +67,9 @@ public class Lesson {
         this.createAt = createAt;
     }
 
-    public Courses getCourses() {
-        return courses;
-    }
+//    public Courses getCourses() {
+//        return courses;
+//    }
 
     public void setCourses(Courses courses) {
         this.courses = courses;

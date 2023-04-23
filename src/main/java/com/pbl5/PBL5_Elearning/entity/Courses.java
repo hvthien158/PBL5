@@ -36,7 +36,10 @@ public class Courses {
     private String totalStar;
 
     @OneToMany(mappedBy = "courses")
-    private Set<Lesson> listLesson;
+    private Set<Lesson> lessons;
+
+    @OneToMany(mappedBy = "courses")
+    private Set<Plan> plans;
 
     @OneToMany(mappedBy = "courses")
     private Set<Payments> listPayments;
@@ -124,5 +127,22 @@ public class Courses {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+
+    public Set<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    public Set<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(Set<Plan> plans) {
+        this.plans = plans;
     }
 }
