@@ -31,13 +31,13 @@ public class CustomUserDetailService implements UserDetailsService {
 		
 		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
 		SimpleGrantedAuthority roleUser;
-		if(user.getRoles() == 0) {
+		if(user.getRole() == 0) {
 			roleUser = new SimpleGrantedAuthority("ROLE_ADMIN");
 //			System.out.println("ROLE_ADMIN");
-		} else if(user.getRoles() == 1) {
+		} else if(user.getRole() == 1) {
 			roleUser = new SimpleGrantedAuthority("ROLE_TEACHER");
 //			System.out.println("ROLE_TEACHER");
-		} else if(user.getRoles() == 2) {
+		} else if(user.getRole() == 2) {
 			roleUser = new SimpleGrantedAuthority("ROLE_USER");
 //			System.out.println("ROLE_USER");
 		} else {

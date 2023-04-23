@@ -44,7 +44,7 @@ public class Users {
     //foreign key role_id
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private Roles roles;
+    private Roles role;
 
     @OneToMany(mappedBy = "users")
     private Set<User_Test> listUserTest;
@@ -152,13 +152,13 @@ public class Users {
         this.avatar = avatar;
     }
 
-    public int getRoles() {
+    public int getRole() {
         //MySQL tự động tăng bắt đầu từ 1, bên FE xử lí mảng bắt đầu từ 0 nên trả về giá trị trừ 1 để đồng bộ
-        return roles.getId() - 1;
+        return role.getId() - 1;
     }
 
-    public void setRoles(Roles roles) {
-        this.roles = roles;
+    public void setRole(Roles role) {
+        this.role = role;
     }
 }
 
