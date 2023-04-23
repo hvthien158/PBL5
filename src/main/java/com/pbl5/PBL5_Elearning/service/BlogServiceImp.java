@@ -8,4 +8,6 @@ public interface BlogServiceImp {
     public List<Blogs> findAllBlog();
 
     public Blogs saveNewBlog(Blogs blogs);
+
+    public Blogs findById(int id);
 }

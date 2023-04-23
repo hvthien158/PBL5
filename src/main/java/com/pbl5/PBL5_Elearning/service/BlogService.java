@@ -22,4 +22,9 @@ public class BlogService implements BlogServiceImp {
     public Blogs saveNewBlog(Blogs blogs) {
         return blogRepository.saveAndFlush(blogs);
     }
+
+    @Override
+    public Blogs findById(int id) {
+        return blogRepository.findById(id).orElseThrow(() -> new RuntimeException("Error Finding Blog"));
+    }
 }
