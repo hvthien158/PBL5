@@ -31,7 +31,7 @@ public class LoginController {
 	@PostMapping("")
 	@CrossOrigin
 	public ResponseEntity<?> login(@RequestBody UserRequest user){
-		System.out.println(user.getUsername() + "," + user.getPassword());
+//		System.out.println(user.getUsername() + "," + user.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
 		);
@@ -41,6 +41,8 @@ public class LoginController {
 		
 		return new ResponseEntity<Token>(new Token(jwtToken, "bearer", userServiceImp.findUserByUsername(user.getUsername()), 24 * 60 * 60 * 1000), HttpStatus.OK);
 	}
+
+
 
 	class Token{
 		private String access_token;

@@ -26,11 +26,13 @@ public class BookmarkController {
     UserServiceImp userServiceImp;
 
     @GetMapping("/{user_id}")
+    @CrossOrigin
     public ResponseEntity<?> findMyBookmark(@PathVariable String user_id){
         return new ResponseEntity<List<Map<String, ?>>>(bookmarkServiceImp.findBookmarksByMyID(user_id), HttpStatus.OK);
     }
 
     @PostMapping("")
+    @CrossOrigin
     public ResponseEntity<?> insertNewBookmark(@RequestBody BookmarksFormat bookmarksFormat){
         Bookmarks bookmarks = new Bookmarks();
         bookmarks.setBlogs(blogServiceImp.findById(bookmarksFormat.getBlog_id()));

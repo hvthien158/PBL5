@@ -28,6 +28,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<?> findCourseById(@PathVariable int id){
         try{
             return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);

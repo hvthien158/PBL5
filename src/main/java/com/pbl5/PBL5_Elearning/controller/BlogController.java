@@ -21,11 +21,13 @@ public class BlogController {
     UserServiceImp userServiceImp;
 
     @GetMapping("/all")
+    @CrossOrigin
     public ResponseEntity<?> findAllBlog(){
         return new ResponseEntity<List<Blogs>>(blogServiceImp.findAllBlog(), HttpStatus.OK);
     }
 
     @PostMapping("")
+    @CrossOrigin
     public ResponseEntity<?> insertNewBlog(@RequestBody BlogFormat blogFormat){
         Blogs blogs = new Blogs();
         blogs.setTitle(blogFormat.getTitle());

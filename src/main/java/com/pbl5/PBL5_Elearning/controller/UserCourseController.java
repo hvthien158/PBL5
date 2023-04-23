@@ -7,10 +7,7 @@ import com.pbl5.PBL5_Elearning.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +26,7 @@ public class UserCourseController {
     CoursesServiceImp coursesServiceImp;
 
     @PostMapping("")
+    @CrossOrigin
     public ResponseEntity<?> checkMyCourse(@RequestBody UserCourseFormat userCourseFormat){
         List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(userCourseFormat.getUser_id(), userCourseFormat.getCourse_id());
         if(list.size() == 0){
