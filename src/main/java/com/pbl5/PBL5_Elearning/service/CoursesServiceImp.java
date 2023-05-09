@@ -9,5 +9,7 @@ public interface CoursesServiceImp {
     public List<Map<String, ?>> findAll();
     public List<Courses> find();
 
-    public Courses findById(int id);
+    public Courses findById(String id);
+
+    public Courses insertNewCourse(Courses courses);
 }

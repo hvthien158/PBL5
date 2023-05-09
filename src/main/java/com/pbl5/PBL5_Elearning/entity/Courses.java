@@ -2,15 +2,15 @@ package com.pbl5.PBL5_Elearning.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity(name = "courses")
 public class Courses {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
-    private int id;
+    private String id;
 
     @Column(name = "avatar")
     private String avatar;
@@ -19,10 +19,10 @@ public class Courses {
     private String name;
 
     @Column(name = "start")
-    private Date start;
+    private LocalDate start;
 
     @Column(name = "end")
-    private Date end;
+    private LocalDate end;
 
     @Column(name = "price")
     private double price;
@@ -30,10 +30,8 @@ public class Courses {
     @Column(name = "description")
     private String description;
 
-    //foreign key teacher_id
-
     @Column(name = "totalstar")
-    private String totalStar;
+    private double totalStar;
 
     @OneToMany(mappedBy = "courses")
     private Set<Lesson> lessons;
@@ -50,6 +48,7 @@ public class Courses {
     @OneToMany(mappedBy = "courses")
     private Set<Homework> listHomework;
 
+    //foreign key teacher_id
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
@@ -57,11 +56,11 @@ public class Courses {
     @OneToMany(mappedBy = "courses")
     private Set<User_Course> lisUserCourses;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -81,19 +80,19 @@ public class Courses {
         this.name = name;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
@@ -113,11 +112,11 @@ public class Courses {
         this.description = description;
     }
 
-    public String getTotalStar() {
+    public double getTotalStar() {
         return totalStar;
     }
 
-    public void setTotalStar(String totalStar) {
+    public void setTotalStar(double totalStar) {
         this.totalStar = totalStar;
     }
 

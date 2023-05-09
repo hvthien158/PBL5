@@ -1,7 +1,10 @@
 package com.pbl5.PBL5_Elearning.helper;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +20,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -35,35 +41,46 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		try {
-			String token = getJwtToken(request);
+		if(request.getServletPath().equals("/login")
+			|| request.getServletPath().equals("/blog/all")
+			|| request.getServletPath().equals("/course/all")
+			|| request.getServletPath().equals("/me")){
+			filterChain.doFilter(request, response);
+		} else {
+			try {
+				String token = getJwtToken(request);
 
-			if (jwtProvider.validationToken(token)) {
-				//Token hợp lệ
-				String jsonData = jwtProvider.decodeToken(token);
-				System.out.println("Kiemtra data token: " + jsonData);
+				if (jwtProvider.validationToken(token)) {
+					//Token hợp lệ
+					String jsonData = jwtProvider.decodeToken(token);
+					System.out.println("Kiemtra data token: " + jsonData);
 
 //				User user = gson.fromJson(jsonData, User.class);
-				User userDetail = (User) userService.loadUserByUsername(jsonData);
-				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
-				System.out.println(userDetail.getAuthorities());
-				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					User userDetail = (User) userService.loadUserByUsername(jsonData);
+					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
+					System.out.println(userDetail.getAuthorities());
+					authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
 //				Authentication authentication = authenticationManager.authenticate(authenticationToken);
-				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-				//Gọi lại hàm đăng nhập mặc định của Spring Security
-			}else {
-				//Token không phải do hệ thống sinh ra
-				System.out.println("Auth : Đăng nhập thất bại");
+					//Gọi lại hàm đăng nhập mặc định của Spring Security
+				}else {
+					//Token không phải do hệ thống sinh ra
+					System.out.println("Auth Error");
+				}
+				filterChain.doFilter(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				response.setHeader("error", e.getMessage());
+				response.setStatus(FORBIDDEN.value());
+				Map<String, String> error = new HashMap<>();
+				error.put("error_message", e.getMessage());
+				response.setContentType(APPLICATION_JSON_VALUE);
+				new ObjectMapper().writeValue(response.getOutputStream(), error);
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Error");
-		} finally {
-			//Cho phép đi tiếp vào đường dẫn đang gọi
-			filterChain.doFilter(request, response);
 		}
+
 	}
 
 	private String getJwtToken(HttpServletRequest request) {

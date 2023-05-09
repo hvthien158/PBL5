@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface CoursesRepository extends JpaRepository<Courses, Integer> {
+public interface CoursesRepository extends JpaRepository<Courses, String> {
     @Query(nativeQuery = true, value = "call customFindAllCourse()")
     public List<Map<String, ?>> customFindAll();
 }

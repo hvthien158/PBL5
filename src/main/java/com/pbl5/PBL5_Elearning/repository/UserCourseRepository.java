@@ -12,5 +12,5 @@ import java.util.Map;
 @Repository
 public interface UserCourseRepository extends JpaRepository<User_Course, Integer> {
     @Query(nativeQuery = true, value = "call checkUserCourse(:user_id, :course_id)")
-    public List<Map<String, ?>> checkMyCourse(@PathVariable String user_id, @PathVariable int course_id);
+    public List<Map<String, ?>> checkMyCourse(@PathVariable String user_id, @PathVariable String course_id);
 }

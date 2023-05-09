@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserCourseServiceImp {
-    public List<Map<String, ?>> checkMyCourse(String user_id, int course_id);
+    public List<Map<String, ?>> checkMyCourse(String user_id, String course_id);
 
     public User_Course registerNewCourse(User_Course user_course);
 }

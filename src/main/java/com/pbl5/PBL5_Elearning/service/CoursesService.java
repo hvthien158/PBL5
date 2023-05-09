@@ -26,7 +26,12 @@ public class CoursesService implements CoursesServiceImp{
     }
 
     @Override
-    public Courses findById(int id) {
+    public Courses findById(String id) {
         return coursesRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    @Override
+    public Courses insertNewCourse(Courses courses) {
+        return coursesRepository.saveAndFlush(courses);
     }
 }
