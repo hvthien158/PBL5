@@ -1,17 +1,24 @@
 package com.pbl5.PBL5_Elearning.controller;
 
 import com.pbl5.PBL5_Elearning.entity.Courses;
+import com.pbl5.PBL5_Elearning.entity.Lesson;
+import com.pbl5.PBL5_Elearning.entity.Plan;
 import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
+import com.pbl5.PBL5_Elearning.service.LessonServiceImp;
+import com.pbl5.PBL5_Elearning.service.PlanServiceImp;
 import com.pbl5.PBL5_Elearning.service.TeacherServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/course")
@@ -21,6 +28,12 @@ public class CourseController {
 
     @Autowired
     TeacherServiceImp teacherServiceImp;
+
+    @Autowired
+    LessonServiceImp lessonServiceImp;
+
+    @Autowired
+    PlanServiceImp planServiceImp;
 
     @GetMapping("/all")
     @CrossOrigin
@@ -58,6 +71,26 @@ public class CourseController {
         coursesNew.setTeacher(teacherServiceImp.findById(coursesFormat.getTeacher_id()));
         coursesNew.setTotalStar(coursesFormat.getTotal_star());
         coursesServiceImp.insertNewCourse(coursesNew);
+        if(coursesFormat.getLessons().length != 0){
+            for(LessonFormat lessonFormat : coursesFormat.getLessons()){
+                Lesson lesson = new Lesson();
+                lesson.setName(lessonFormat.getName());
+                lesson.setVideo(lessonFormat.getVideo());
+                lesson.setGrammar(lessonFormat.getGrammar());
+                lesson.setCreateAt(LocalDate.parse(lessonFormat.getCreated_at()));
+                lesson.setCourses(coursesServiceImp.findById(coursesFormat.getId()));
+                lessonServiceImp.insertNewLesson(lesson);
+            }
+        }
+        if(coursesFormat.getPlans().length != 0){
+            for(PlanFormat planFormat : coursesFormat.getPlans()){
+                Plan plan = new Plan();
+                plan.setTitle(planFormat.getTitle());
+                plan.setCreate_at(LocalDate.parse(planFormat.getCreated_at()));
+                plan.setCourses(coursesServiceImp.findById(coursesFormat.getId()));
+                planServiceImp.insertNewPlan(plan);
+            }
+        }
         return new ResponseEntity<String>("", HttpStatus.CREATED);
     }
 
@@ -70,8 +103,12 @@ public class CourseController {
         private String description;
         private double price;
         private String teacher_id;
-
         private double total_star;
+
+        private PlanFormat[] plans;
+
+        private LessonFormat[] lessons;
+
 
         public String getId() {
             return id;
@@ -143,6 +180,84 @@ public class CourseController {
 
         public void setTotal_star(double total_star) {
             this.total_star = total_star;
+        }
+
+        public PlanFormat[] getPlans() {
+            return plans;
+        }
+
+        public void setPlans(PlanFormat[] plans) {
+            this.plans = plans;
+        }
+
+        public LessonFormat[] getLessons() {
+            return lessons;
+        }
+
+        public void setLessons(LessonFormat[] lessons) {
+            this.lessons = lessons;
+        }
+    }
+
+
+    private static class PlanFormat{
+        private String title;
+        private String created_at;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
+        }
+    }
+
+
+    private static class LessonFormat{
+        private String name;
+        private String video;
+        private String grammar;
+        private String created_at;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
+
+        public String getGrammar() {
+            return grammar;
+        }
+
+        public void setGrammar(String grammar) {
+            this.grammar = grammar;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
         }
     }
 }

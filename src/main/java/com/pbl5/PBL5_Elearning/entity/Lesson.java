@@ -2,6 +2,7 @@ package com.pbl5.PBL5_Elearning.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(name = "lesson")
@@ -21,7 +22,7 @@ public class Lesson {
     private String grammar;
 
     @Column(name = "create_at")
-    private String createAt;
+    private LocalDate createAt;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -59,11 +60,11 @@ public class Lesson {
         this.grammar = grammar;
     }
 
-    public String getCreateAt() {
+    public LocalDate getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(LocalDate createAt) {
         this.createAt = createAt;
     }
 

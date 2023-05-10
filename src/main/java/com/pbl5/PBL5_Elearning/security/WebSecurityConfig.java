@@ -54,8 +54,8 @@ public class WebSecurityConfig {
 			.and().authorizeHttpRequests()
 			.requestMatchers("/login").permitAll()
 			.requestMatchers("/blog/all").permitAll()
-			.requestMatchers("/course/all").permitAll()
-			.requestMatchers("/course/id").permitAll()
+			.requestMatchers("/course/*").permitAll()
+			.requestMatchers("/course").authenticated()
 			.requestMatchers("/me").permitAll()
 			.anyRequest().authenticated()
 			.and().addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
