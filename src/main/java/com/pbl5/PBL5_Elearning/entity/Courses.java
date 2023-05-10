@@ -10,7 +10,8 @@ import java.util.Set;
 public class Courses {
     @Id
     @Column(name = "course_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "avatar")
     private String avatar;
@@ -56,11 +57,11 @@ public class Courses {
     @OneToMany(mappedBy = "courses")
     private Set<User_Course> lisUserCourses;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

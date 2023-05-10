@@ -43,7 +43,7 @@ public class UserCourseController {
 
     private static class UserCourseFormat{
         private String user_id;
-        private String course_id;
+        private int course_id;
 
         public String getUser_id() {
             return user_id;
@@ -53,11 +53,11 @@ public class UserCourseController {
             this.user_id = user_id;
         }
 
-        public String getCourse_id() {
+        public int getCourse_id() {
             return course_id;
         }
 
-        public void setCourse_id(String course_id) {
+        public void setCourse_id(int course_id) {
             this.course_id = course_id;
         }
     }

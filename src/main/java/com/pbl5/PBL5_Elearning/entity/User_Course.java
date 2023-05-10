@@ -32,9 +32,9 @@ public class User_Course {
         this.courses = courses;
     }
 
-    public Users getUsers() {
-        return users;
-    }
+//    public Users getUsers() {
+//        return users;
+//}
 
     public void setUsers(Users users) {
         this.users = users;

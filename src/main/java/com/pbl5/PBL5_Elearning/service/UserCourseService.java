@@ -15,7 +15,7 @@ public class UserCourseService implements UserCourseServiceImp{
     UserCourseRepository userCourseRepository;
 
     @Override
-    public List<Map<String, ?>> checkMyCourse(String user_id, String course_id) {
+    public List<Map<String, ?>> checkMyCourse(String user_id, int course_id) {
         return userCourseRepository.checkMyCourse(user_id, course_id);
     }
 

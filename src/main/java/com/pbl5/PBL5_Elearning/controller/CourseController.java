@@ -48,7 +48,7 @@ public class CourseController {
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public ResponseEntity<?> findCourseById(@PathVariable String id){
+    public ResponseEntity<?> findCourseById(@PathVariable int id){
         try{
             return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
         } catch (Exception e){
@@ -61,7 +61,6 @@ public class CourseController {
     @CrossOrigin
     public ResponseEntity<?> insertNewCourse(@RequestBody CourseFormat coursesFormat){
         Courses coursesNew = new Courses();
-        coursesNew.setId(coursesFormat.getId());
         coursesNew.setAvatar(coursesFormat.getAvatar());
         coursesNew.setName(coursesFormat.getName());
         coursesNew.setStart(LocalDate.parse(coursesFormat.getStart()));
@@ -78,7 +77,7 @@ public class CourseController {
                 lesson.setVideo(lessonFormat.getVideo());
                 lesson.setGrammar(lessonFormat.getGrammar());
                 lesson.setCreateAt(LocalDate.parse(lessonFormat.getCreated_at()));
-                lesson.setCourses(coursesServiceImp.findById(coursesFormat.getId()));
+                lesson.setCourses(coursesServiceImp.findById(coursesNew.getId()));
                 lessonServiceImp.insertNewLesson(lesson);
             }
         }
@@ -87,7 +86,7 @@ public class CourseController {
                 Plan plan = new Plan();
                 plan.setTitle(planFormat.getTitle());
                 plan.setCreate_at(LocalDate.parse(planFormat.getCreated_at()));
-                plan.setCourses(coursesServiceImp.findById(coursesFormat.getId()));
+                plan.setCourses(coursesServiceImp.findById(coursesNew.getId()));
                 planServiceImp.insertNewPlan(plan);
             }
         }
