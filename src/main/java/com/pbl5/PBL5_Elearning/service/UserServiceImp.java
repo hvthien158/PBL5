@@ -8,7 +8,13 @@ import com.pbl5.PBL5_Elearning.entity.Users;
 public interface UserServiceImp {
 	public List<Users> findAllUsers();
 	public Users findUserByUsername(String username);
-	public List<Map<String, ?>> getUserById(String id);
+	public List<Map<String, ?>> getUserById(int id);
 
-	public Users findById(String id);
+	public Users findById(int id);
+
+	public boolean existUser(String username);
+
+	public boolean existEmail(String email);
+
+	public Users saveNewUser(Users users);
 }

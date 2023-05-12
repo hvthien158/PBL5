@@ -23,13 +23,28 @@ public class UserService implements UserServiceImp{
 	}
 
 	@Override
-	public List<Map<String, ?>> getUserById(String id) {
+	public List<Map<String, ?>> getUserById(int id) {
 		return userRepository.customFindById(id);
 	}
 
 	@Override
-	public Users findById(String id) {
+	public Users findById(int id) {
 		return userRepository.findById(id).orElseThrow();
+	}
+
+	@Override
+	public boolean existUser(String username) {
+		return userRepository.existsByUsername(username);
+	}
+
+	@Override
+	public boolean existEmail(String email) {
+		return userRepository.existsByEmail(email);
+	}
+
+	@Override
+	public Users saveNewUser(Users users) {
+		return userRepository.saveAndFlush(users);
 	}
 
 

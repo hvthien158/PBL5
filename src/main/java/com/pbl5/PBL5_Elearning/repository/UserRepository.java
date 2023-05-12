@@ -11,9 +11,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, String> {
+public interface UserRepository extends JpaRepository<Users, Integer> {
 	public Users findByUsername(String username);
 
+	public boolean existsByUsername(String username);
+
+	public boolean existsByEmail(String email);
+
 	@Query(nativeQuery = true, value = "call customFindUserById(:id)")
-	public List<Map<String, ?>> customFindById(@PathVariable String id);
+	public List<Map<String, ?>> customFindById(@PathVariable int id);
 }

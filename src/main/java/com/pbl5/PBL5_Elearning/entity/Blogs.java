@@ -59,7 +59,7 @@ public class Blogs {
         this.description = description;
     }
 
-    public String getUsers() {
+    public int getUsers() {
         return users.getId();
     }
 

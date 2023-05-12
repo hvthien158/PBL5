@@ -42,7 +42,7 @@ public class BlogController {
         private String title;
         private String image;
         private String description;
-        private String creator;
+        private int creator;
 
         public String getTitle() {
             return title;
@@ -68,11 +68,11 @@ public class BlogController {
             this.description = description;
         }
 
-        public String getCreator() {
+        public int getCreator() {
             return creator;
         }
 
-        public void setCreator(String creator) {
+        public void setCreator(int creator) {
             this.creator = creator;
         }
     }

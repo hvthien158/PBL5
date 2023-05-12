@@ -9,7 +9,8 @@ import java.util.Set;
 public class Users {
     @Id
     @Column(name = "user_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "user_name")
     private String username;
@@ -64,11 +65,11 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Set<Bookmarks> listBookmarks;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

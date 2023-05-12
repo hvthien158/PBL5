@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public ResponseEntity<?> getUserDetail(@PathVariable String id){
+    public ResponseEntity<?> getUserDetail(@PathVariable int id){
         return new ResponseEntity<List<Map<String, ?>>>(userServiceImp.getUserById(id), HttpStatus.OK);
     }
 }

@@ -53,6 +53,7 @@ public class WebSecurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and().authorizeHttpRequests()
 			.requestMatchers("/login").permitAll()
+			.requestMatchers("/register").permitAll()
 			.requestMatchers("/blog/all").permitAll()
 			.requestMatchers("/course/*").permitAll()
 			.requestMatchers("/course").authenticated()

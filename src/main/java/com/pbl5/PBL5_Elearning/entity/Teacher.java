@@ -62,7 +62,7 @@ public class Teacher {
         this.slogan = slogan;
     }
 
-    public String getUsers() {
+    public int getUsers() {
         return users.getId();
     }
 

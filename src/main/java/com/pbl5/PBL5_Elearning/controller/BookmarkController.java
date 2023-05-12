@@ -43,7 +43,7 @@ public class BookmarkController {
 
     private static class BookmarksFormat{
         private int blog_id;
-        private String user_id;
+        private int user_id;
 
         public int getBlog_id() {
             return blog_id;
@@ -53,11 +53,11 @@ public class BookmarkController {
             this.blog_id = blog_id;
         }
 
-        public String getUser_id() {
+        public int getUser_id() {
             return user_id;
         }
 
-        public void setUser_id(String user_id) {
+        public void setUser_id(int user_id) {
             this.user_id = user_id;
         }
     }
