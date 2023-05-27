@@ -9,7 +9,8 @@ import java.util.Set;
 public class Teacher {
     @Id
     @Column(name = "teacher_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "degree")
     private String degree;
@@ -30,11 +31,11 @@ public class Teacher {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
