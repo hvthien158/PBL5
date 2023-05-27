@@ -41,4 +41,9 @@ public class CoursesService implements CoursesServiceImp{
     public Courses insertNewCourse(Courses courses) {
         return coursesRepository.saveAndFlush(courses);
     }
+
+    @Override
+    public List<Map<String, ?>> searchByName(String name) {
+        return coursesRepository.customSearchByName(name);
+    }
 }

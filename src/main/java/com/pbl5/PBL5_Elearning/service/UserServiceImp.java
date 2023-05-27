@@ -17,4 +17,6 @@ public interface UserServiceImp {
 	public boolean existEmail(String email);
 
 	public Users saveNewUser(Users users);
+
+	public List<Map<String, ?>> searchByName(String name);
 }

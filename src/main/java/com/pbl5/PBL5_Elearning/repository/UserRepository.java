@@ -5,6 +5,7 @@ import com.pbl5.PBL5_Elearning.entity.Users;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
 	@Query(nativeQuery = true, value = "call customFindUserById(:id)")
 	public List<Map<String, ?>> customFindById(@PathVariable int id);
+
+	@Query(nativeQuery = true, value = "call searchUserByHotenOrEmail(:name)")
+	public List<Map<String, ?>> customSearchByHotenOrEmail(@PathVariable String name);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BlogService implements BlogServiceImp {
@@ -26,5 +27,10 @@ public class BlogService implements BlogServiceImp {
     @Override
     public Blogs findById(int id) {
         return blogRepository.findById(id).orElseThrow(() -> new RuntimeException("Error Finding Blog"));
+    }
+
+    @Override
+    public List<Map<String, ?>> searchByTitle(String title) {
+        return blogRepository.customSearchByTitle(title);
     }
 }

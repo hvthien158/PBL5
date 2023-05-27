@@ -47,6 +47,11 @@ public class UserService implements UserServiceImp{
 		return userRepository.saveAndFlush(users);
 	}
 
+	@Override
+	public List<Map<String, ?>> searchByName(String name) {
+		return userRepository.customSearchByHotenOrEmail(name);
+	}
+
 
 	@Override
 	public List<Users> findAllUsers() {

@@ -16,4 +16,6 @@ public interface CoursesServiceImp {
     public Set<Courses> findByTeacher(Teacher teacher);
 
     public Courses insertNewCourse(Courses courses);
+
+    public List<Map<String, ?>> searchByName(String name);
 }

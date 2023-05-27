@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
 
     public Optional<Teacher> findByUsers(Users users);
+
 }
