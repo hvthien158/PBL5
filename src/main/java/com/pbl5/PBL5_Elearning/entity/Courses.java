@@ -13,8 +13,8 @@ public class Courses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "avatar")
-    private String avatar;
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "name")
     private String name;
@@ -65,12 +65,12 @@ public class Courses {
         this.id = id;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getImage() {
+        return image;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {

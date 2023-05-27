@@ -1,8 +1,12 @@
 package com.pbl5.PBL5_Elearning.controller;
 
+import com.pbl5.PBL5_Elearning.entity.Blogs;
 import com.pbl5.PBL5_Elearning.entity.Courses;
+import com.pbl5.PBL5_Elearning.entity.Teacher;
 import com.pbl5.PBL5_Elearning.entity.Users;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
+import com.pbl5.PBL5_Elearning.service.TeacherServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/me")
@@ -21,13 +26,24 @@ public class RememberAccessController {
     @Autowired
     UserServiceImp userServiceImp;
 
+    @Autowired
+    TeacherServiceImp teacherServiceImp;
+
+    @Autowired
+    CoursesServiceImp coursesServiceImp;
+
     @PostMapping("")
     @CrossOrigin
     public ResponseEntity<?> rememberTokenCheck(@RequestBody Access access){
         if(jwtProvider.validationToken(access.getAccess_token())){
             String username = jwtProvider.decodeToken(access.getAccess_token());
             Users users = userServiceImp.findUserByUsername(username);
-            return new ResponseEntity<Users>(users, HttpStatus.OK);
+            try {
+                Teacher teacher = teacherServiceImp.findByUserId(users.getId());
+                return new ResponseEntity<ResponseFormat>(new ResponseFormat(users.getId(), users.getUsername(), users.getEmail(), users.getGoogleId(), users.getFullName(), users.getAge(), users.getGender(), users.getAddress(), users.getPhone(), users.getAvatar(), users.getRole(), users.getListBlogs(), coursesServiceImp.findByTeacher(teacher)), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<Users>(users, HttpStatus.OK);
+            }
         } else {
             return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
         }
@@ -46,9 +62,8 @@ public class RememberAccessController {
     }
 
     private static class ResponseFormat{
-        private String id;
+        private int id;
         private String username;
-        private String password;
         private String email;
         private String googleId;
         private String fullname;
@@ -58,13 +73,32 @@ public class RememberAccessController {
         private String phone;
         private String avatar;
         private int role;
-        private Courses[] courses;
 
-        public String getId() {
+        private Set<Blogs> blogs;
+
+        private Set<Courses> courses;
+
+        public ResponseFormat(int id, String username, String email, String googleId, String fullname, int age, int gender, String address, String phone, String avatar, int role, Set<Blogs> blogs, Set<Courses> courses) {
+            this.id = id;
+            this.username = username;
+            this.email = email;
+            this.googleId = googleId;
+            this.fullname = fullname;
+            this.age = age;
+            this.gender = gender;
+            this.address = address;
+            this.phone = phone;
+            this.avatar = avatar;
+            this.role = role;
+            this.blogs = blogs;
+            this.courses = courses;
+        }
+
+        public int getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(int id) {
             this.id = id;
         }
 
@@ -74,14 +108,6 @@ public class RememberAccessController {
 
         public void setUsername(String username) {
             this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
         }
 
         public String getEmail() {
@@ -156,6 +182,20 @@ public class RememberAccessController {
             this.role = role;
         }
 
+        public Set<Blogs> getBlogs() {
+            return blogs;
+        }
 
+        public void setBlogs(Set<Blogs> blogs) {
+            this.blogs = blogs;
+        }
+
+        public Set<Courses> getCourses() {
+            return courses;
+        }
+
+        public void setCourses(Set<Courses> courses) {
+            this.courses = courses;
+        }
     }
 }

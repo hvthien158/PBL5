@@ -1,6 +1,7 @@
 package com.pbl5.PBL5_Elearning.service;
 
 import com.pbl5.PBL5_Elearning.entity.Courses;
+import com.pbl5.PBL5_Elearning.entity.Teacher;
 import com.pbl5.PBL5_Elearning.repository.CoursesRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class CoursesService implements CoursesServiceImp{
@@ -28,6 +30,11 @@ public class CoursesService implements CoursesServiceImp{
     @Override
     public Courses findById(int id) {
         return coursesRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    @Override
+    public Set<Courses> findByTeacher(Teacher teacher) {
+        return coursesRepository.findAllByTeacher(teacher);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.pbl5.PBL5_Elearning.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity(name = "payments")
 public class Payments {
     @Id
@@ -9,15 +11,19 @@ public class Payments {
     @Column(name = "pay_id")
     private int id;
 
-    @Column(name = "sale_off")
-    private double saleOff;
+    @Column(name = "total")
+    private float total;
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
+    @Column(name = "created_at")
+    private LocalDate created_at;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Courses courses;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users users;
 
     public int getId() {
         return id;
@@ -27,20 +33,28 @@ public class Payments {
         this.id = id;
     }
 
-    public double getSaleOff() {
-        return saleOff;
+    public float getTotal() {
+        return total;
     }
 
-    public void setSaleOff(double saleOff) {
-        this.saleOff = saleOff;
+    public void setTotal(float total) {
+        this.total = total;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public LocalDate getCreated_at() {
+        return created_at;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setCreated_at(LocalDate created_at) {
+        this.created_at = created_at;
+    }
+
+    public int getUsers() {
+        return users.getId();
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     public Courses getCourses() {

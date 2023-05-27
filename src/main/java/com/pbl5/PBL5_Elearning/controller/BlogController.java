@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,8 @@ public class BlogController {
         Blogs blogs = new Blogs();
         blogs.setTitle(blogFormat.getTitle());
         blogs.setImage(blogFormat.getImage());
-        blogs.setDescription(blogFormat.getDescription());
+        blogs.setContent(blogFormat.getContent());
+        blogs.setCreated_at(LocalDate.parse(blogFormat.getCreated_at()));
         blogs.setUsers(userServiceImp.findById(blogFormat.getCreator()));
         blogServiceImp.saveNewBlog(blogs);
         return new ResponseEntity<String>("", HttpStatus.CREATED);
@@ -41,7 +43,8 @@ public class BlogController {
     private static class BlogFormat{
         private String title;
         private String image;
-        private String description;
+        private String content;
+        private String created_at;
         private int creator;
 
         public String getTitle() {
@@ -60,12 +63,20 @@ public class BlogController {
             this.image = image;
         }
 
-        public String getDescription() {
-            return description;
+        public String getContent() {
+            return content;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
         }
 
         public int getCreator() {

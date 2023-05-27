@@ -63,8 +63,8 @@ public class Teacher {
         this.slogan = slogan;
     }
 
-    public int getUsers() {
-        return users.getId();
+    public Users getUsers() {
+        return users;
     }
 
     public void setUsers(Users users) {

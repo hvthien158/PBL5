@@ -1,5 +1,6 @@
 package com.pbl5.PBL5_Elearning.repository;
 
+import com.pbl5.PBL5_Elearning.entity.Teacher;
 import com.pbl5.PBL5_Elearning.entity.Users;
 
 import java.util.List;

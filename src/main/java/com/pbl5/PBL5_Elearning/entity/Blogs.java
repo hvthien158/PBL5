@@ -2,6 +2,7 @@ package com.pbl5.PBL5_Elearning.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity(name = "blogs")
@@ -17,8 +18,11 @@ public class Blogs {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "created_at")
+    private LocalDate created_at;
 
     @OneToMany(mappedBy = "blogs")
     private Set<Bookmarks> listBookmarks;
@@ -51,12 +55,20 @@ public class Blogs {
         this.image = image;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDate getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDate created_at) {
+        this.created_at = created_at;
     }
 
     public int getUsers() {

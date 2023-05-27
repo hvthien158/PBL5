@@ -61,7 +61,7 @@ public class CourseController {
     @CrossOrigin
     public ResponseEntity<?> insertNewCourse(@RequestBody CourseFormat coursesFormat){
         Courses coursesNew = new Courses();
-        coursesNew.setAvatar(coursesFormat.getAvatar());
+        coursesNew.setImage(coursesFormat.getImage());
         coursesNew.setName(coursesFormat.getName());
         coursesNew.setStart(LocalDate.parse(coursesFormat.getStart()));
         coursesNew.setEnd(LocalDate.parse(coursesFormat.getEnd()));
@@ -95,7 +95,7 @@ public class CourseController {
 
     private static class CourseFormat{
         private String id;
-        private String avatar;
+        private String image;
         private String name;
         private String start;
         private String end;
@@ -117,12 +117,12 @@ public class CourseController {
             this.id = id;
         }
 
-        public String getAvatar() {
-            return avatar;
+        public String getImage() {
+            return image;
         }
 
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
+        public void setImage(String image) {
+            this.image = image;
         }
 
         public String getName() {

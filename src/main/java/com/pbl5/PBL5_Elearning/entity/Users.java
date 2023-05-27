@@ -65,6 +65,9 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Set<Bookmarks> listBookmarks;
 
+    @OneToMany(mappedBy = "users")
+    private Set<Payments> listPayments;
+
     public int getId() {
         return id;
     }
@@ -160,6 +163,10 @@ public class Users {
 
     public void setRole(Roles role) {
         this.role = role;
+    }
+
+    public Set<Blogs> getListBlogs() {
+        return listBlogs;
     }
 }
 
