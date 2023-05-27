@@ -101,7 +101,7 @@ public class CourseController {
         private String end;
         private String description;
         private double price;
-        private String teacher_id;
+        private int teacher_id;
         private double total_star;
 
         private PlanFormat[] plans;
@@ -165,11 +165,11 @@ public class CourseController {
             this.price = price;
         }
 
-        public String getTeacher_id() {
+        public int getTeacher_id() {
             return teacher_id;
         }
 
-        public void setTeacher_id(String teacher_id) {
+        public void setTeacher_id(int teacher_id) {
             this.teacher_id = teacher_id;
         }
 

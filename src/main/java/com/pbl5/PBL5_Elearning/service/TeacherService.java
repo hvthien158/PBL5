@@ -12,7 +12,7 @@ public class TeacherService implements TeacherServiceImp{
     TeacherRepository teacherRepository;
 
     @Override
-    public Teacher findById(String id) {
+    public Teacher findById(int id) {
         return teacherRepository.findById(id).orElseThrow();
     }
 }
