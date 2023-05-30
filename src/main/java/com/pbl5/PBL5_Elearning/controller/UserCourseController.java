@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +41,11 @@ public class UserCourseController {
             int user_id = userServiceImp.findUserByUsername(username).getId();
             List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, course_id);
             if(list.size() == 0){
-                return new ResponseEntity<String>("Unregistered", HttpStatus.OK);
+                Map<String, String> res = new HashMap<>();
+                res.put("registered", "false");
+                return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
             } else {
-                return new ResponseEntity<Courses>(coursesServiceImp.findById(course_id), HttpStatus.OK);
+                return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(course_id)), HttpStatus.OK);
             }
         }
         return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
@@ -68,5 +71,31 @@ public class UserCourseController {
             }
         }
         return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
+    }
+
+    private static class ResponseFormat {
+        private String registered;
+        private Courses data;
+
+        public ResponseFormat(String registered, Courses data) {
+            this.registered = registered;
+            this.data = data;
+        }
+
+        public String getRegistered() {
+            return registered;
+        }
+
+        public void setRegistered(String registered) {
+            this.registered = registered;
+        }
+
+        public Courses getData() {
+            return data;
+        }
+
+        public void setData(Courses data) {
+            this.data = data;
+        }
     }
 }
