@@ -1,6 +1,8 @@
 package com.pbl5.PBL5_Elearning.controller;
 
+import com.pbl5.PBL5_Elearning.entity.Courses;
 import com.pbl5.PBL5_Elearning.entity.User_Course;
+import com.pbl5.PBL5_Elearning.helper.JwtProvider;
 import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserCourseServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
@@ -25,40 +27,46 @@ public class UserCourseController {
     @Autowired
     CoursesServiceImp coursesServiceImp;
 
-    @PostMapping("")
+    @Autowired
+    JwtProvider jwtProvider;
+
+    @GetMapping("/check/{course_id}")
     @CrossOrigin
-    public ResponseEntity<?> checkMyCourse(@RequestBody UserCourseFormat userCourseFormat){
-        List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(userCourseFormat.getUser_id(), userCourseFormat.getCourse_id());
-        if(list.size() == 0){
-            User_Course user_course = new User_Course();
-            user_course.setUsers(userServiceImp.findById(userCourseFormat.getUser_id()));
-            user_course.setCourses(coursesServiceImp.findById(userCourseFormat.getCourse_id()));
-            userCourseServiceImp.registerNewCourse(user_course);
-            return new ResponseEntity<String>("", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>("", HttpStatus.CREATED);
+    public ResponseEntity<?> checkMyCourse(@PathVariable int course_id, @RequestHeader("Authorization") String token){
+        coursesServiceImp.findById(course_id);
+        token = token.substring(7);
+        if(jwtProvider.validationToken(token)){
+            String username = jwtProvider.decodeToken(token);
+            int user_id = userServiceImp.findUserByUsername(username).getId();
+            List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, course_id);
+            if(list.size() == 0){
+                return new ResponseEntity<String>("Unregistered", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Courses>(coursesServiceImp.findById(course_id), HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
     }
 
-
-    private static class UserCourseFormat{
-        private int user_id;
-        private int course_id;
-
-        public int getUser_id() {
-            return user_id;
+    @PostMapping("/register/{course_id}")
+    @CrossOrigin
+    public ResponseEntity<?> registerCourse(@PathVariable int course_id, @RequestHeader("Authorization") String token){
+        coursesServiceImp.findById(course_id);
+        token = token.substring(7);
+        if(jwtProvider.validationToken(token)){
+            String username = jwtProvider.decodeToken(token);
+            int user_id = userServiceImp.findUserByUsername(username).getId();
+            List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, course_id);
+            if(list.size() == 0){
+                User_Course user_course = new User_Course();
+                user_course.setUsers(userServiceImp.findById(user_id));
+                user_course.setCourses(coursesServiceImp.findById(course_id));
+                userCourseServiceImp.registerNewCourse(user_course);
+                return new ResponseEntity<String>("Register course: Done", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<String>("Registered", HttpStatus.OK);
+            }
         }
-
-        public void setUser_id(int user_id) {
-            this.user_id = user_id;
-        }
-
-        public int getCourse_id() {
-            return course_id;
-        }
-
-        public void setCourse_id(int course_id) {
-            this.course_id = course_id;
-        }
+        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
     }
 }

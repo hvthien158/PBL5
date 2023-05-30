@@ -29,7 +29,7 @@ public class UserService implements UserServiceImp{
 
 	@Override
 	public Users findById(int id) {
-		return userRepository.findById(id).orElseThrow();
+		return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 	}
 
 	@Override

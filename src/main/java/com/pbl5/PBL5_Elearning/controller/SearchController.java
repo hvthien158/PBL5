@@ -27,7 +27,7 @@ public class SearchController {
     @Autowired
     CoursesServiceImp coursesServiceImp;
 
-    @PostMapping("/{query}")
+    @GetMapping("/{query}")
     @CrossOrigin
     public ResponseEntity<?> search(@PathVariable String query){
         query = "%" + query + "%"; //dùng để gọi trong mysql dạng tìm kiếm theo like

@@ -23,6 +23,6 @@ public class TeacherService implements TeacherServiceImp{
     @Override
     public Teacher findByUserId(int id) {
         Users users = userServiceImp.findById(id);
-        return teacherRepository.findByUsers(users).orElseThrow(()->new RuntimeException(""));
+        return teacherRepository.findByUsers(users).orElseThrow(()->new RuntimeException("Teacher not found"));
     }
 }

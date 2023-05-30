@@ -29,7 +29,7 @@ public class CoursesService implements CoursesServiceImp{
 
     @Override
     public Courses findById(int id) {
-        return coursesRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        return coursesRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
     }
 
     @Override

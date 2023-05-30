@@ -12,6 +12,6 @@ public class RoleService implements RoleServiceImp{
     RolesRepository rolesRepository;
     @Override
     public Roles findByName(String name) {
-        return rolesRepository.findFirstByRoleName(name).orElseThrow(() -> new RuntimeException("Not found"));
+        return rolesRepository.findFirstByRoleName(name).orElseThrow(() -> new RuntimeException("Role not found"));
     }
 }

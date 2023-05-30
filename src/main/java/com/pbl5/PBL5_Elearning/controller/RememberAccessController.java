@@ -34,9 +34,10 @@ public class RememberAccessController {
 
     @PostMapping("")
     @CrossOrigin
-    public ResponseEntity<?> rememberTokenCheck(@RequestBody Access access){
-        if(jwtProvider.validationToken(access.getAccess_token())){
-            String username = jwtProvider.decodeToken(access.getAccess_token());
+    public ResponseEntity<?> rememberTokenCheck(@RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        if(jwtProvider.validationToken(token)){
+            String username = jwtProvider.decodeToken(token);
             Users users = userServiceImp.findUserByUsername(username);
             try {
                 Teacher teacher = teacherServiceImp.findByUserId(users.getId());
@@ -46,18 +47,6 @@ public class RememberAccessController {
             }
         } else {
             return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    private static class Access{
-        private String access_token;
-
-        public String getAccess_token() {
-            return access_token;
-        }
-
-        public void setAccess_token(String access_token) {
-            this.access_token = access_token;
         }
     }
 

@@ -26,7 +26,7 @@ public class BlogService implements BlogServiceImp {
 
     @Override
     public Blogs findById(int id) {
-        return blogRepository.findById(id).orElseThrow(() -> new RuntimeException("Error Finding Blog"));
+        return blogRepository.findById(id).orElseThrow(() -> new RuntimeException("Blog not found"));
     }
 
     @Override
