@@ -60,9 +60,7 @@ public class CourseController {
             int user_id = userServiceImp.findUserByUsername(username).getId();
             List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, id);
             if(list.size() == 0){
-                Map<String, String> res = new HashMap<>();
-                res.put("registered", "false");
-                return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
+                return new ResponseEntity<ResponseFormat>(new ResponseFormat("false", coursesServiceImp.findById(id)), HttpStatus.OK);
             } else {
                 return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(id)), HttpStatus.OK);
             }
