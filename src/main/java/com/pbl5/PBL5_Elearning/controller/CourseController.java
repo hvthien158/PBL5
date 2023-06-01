@@ -3,10 +3,8 @@ package com.pbl5.PBL5_Elearning.controller;
 import com.pbl5.PBL5_Elearning.entity.Courses;
 import com.pbl5.PBL5_Elearning.entity.Lesson;
 import com.pbl5.PBL5_Elearning.entity.Plan;
-import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
-import com.pbl5.PBL5_Elearning.service.LessonServiceImp;
-import com.pbl5.PBL5_Elearning.service.PlanServiceImp;
-import com.pbl5.PBL5_Elearning.service.TeacherServiceImp;
+import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/course")
@@ -30,10 +25,19 @@ public class CourseController {
     TeacherServiceImp teacherServiceImp;
 
     @Autowired
+    UserServiceImp userServiceImp;
+
+    @Autowired
+    UserCourseServiceImp userCourseServiceImp;
+
+    @Autowired
     LessonServiceImp lessonServiceImp;
 
     @Autowired
     PlanServiceImp planServiceImp;
+
+    @Autowired
+    JwtProvider jwtProvider;
 
     @GetMapping("/all")
     @CrossOrigin
@@ -48,13 +52,22 @@ public class CourseController {
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public ResponseEntity<?> findCourseById(@PathVariable int id){
-        try{
-            return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
-        } catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> findCourseById(@PathVariable int id, @RequestHeader("Authorization") String token){
+        coursesServiceImp.findById(id);
+        token = token.substring(7);
+        if(jwtProvider.validationToken(token)){
+            String username = jwtProvider.decodeToken(token);
+            int user_id = userServiceImp.findUserByUsername(username).getId();
+            List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, id);
+            if(list.size() == 0){
+                Map<String, String> res = new HashMap<>();
+                res.put("registered", "false");
+                return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(id)), HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("")
@@ -257,6 +270,32 @@ public class CourseController {
 
         public void setCreated_at(String created_at) {
             this.created_at = created_at;
+        }
+    }
+
+    private static class ResponseFormat {
+        private String registered;
+        private Courses data;
+
+        public ResponseFormat(String registered, Courses data) {
+            this.registered = registered;
+            this.data = data;
+        }
+
+        public String getRegistered() {
+            return registered;
+        }
+
+        public void setRegistered(String registered) {
+            this.registered = registered;
+        }
+
+        public Courses getData() {
+            return data;
+        }
+
+        public void setData(Courses data) {
+            this.data = data;
         }
     }
 }

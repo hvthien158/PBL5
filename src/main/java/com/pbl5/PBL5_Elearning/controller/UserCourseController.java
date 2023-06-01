@@ -31,26 +31,6 @@ public class UserCourseController {
     @Autowired
     JwtProvider jwtProvider;
 
-    @GetMapping("/check/{course_id}")
-    @CrossOrigin
-    public ResponseEntity<?> checkMyCourse(@PathVariable int course_id, @RequestHeader("Authorization") String token){
-        coursesServiceImp.findById(course_id);
-        token = token.substring(7);
-        if(jwtProvider.validationToken(token)){
-            String username = jwtProvider.decodeToken(token);
-            int user_id = userServiceImp.findUserByUsername(username).getId();
-            List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, course_id);
-            if(list.size() == 0){
-                Map<String, String> res = new HashMap<>();
-                res.put("registered", "false");
-                return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(course_id)), HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
-    }
-
     @PostMapping("/register/{course_id}")
     @CrossOrigin
     public ResponseEntity<?> registerCourse(@PathVariable int course_id, @RequestHeader("Authorization") String token){
