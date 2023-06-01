@@ -52,11 +52,14 @@ public class CourseController {
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public ResponseEntity<?> findCourseById(@PathVariable int id, @RequestHeader("Authorization") String token){
+    public ResponseEntity<?> findCourseById(@PathVariable int id, @RequestBody TokenFormat token){
+        if(token.getToken().equals("")){
+            return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
+        }
+        String temp = token.getToken();
         coursesServiceImp.findById(id);
-        token = token.substring(7);
-        if(jwtProvider.validationToken(token)){
-            String username = jwtProvider.decodeToken(token);
+        if(jwtProvider.validationToken(temp)){
+            String username = jwtProvider.decodeToken(temp);
             int user_id = userServiceImp.findUserByUsername(username).getId();
             List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, id);
             if(list.size() == 0){
@@ -102,6 +105,18 @@ public class CourseController {
             }
         }
         return new ResponseEntity<String>("", HttpStatus.CREATED);
+    }
+
+    private static class TokenFormat{
+        String token;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
 
     private static class CourseFormat{
