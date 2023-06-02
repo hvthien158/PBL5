@@ -50,25 +50,22 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/{id}/user_id={user_id}")
+    @CrossOrigin
+    public ResponseEntity<?> checkCourseById(@PathVariable(name = "id") int id, @PathVariable(name = "user_id") int user_id){
+        coursesServiceImp.findById(id);
+        List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, id);
+        if(list.size() == 0){
+            return new ResponseEntity<ResponseFormat>(new ResponseFormat("false", coursesServiceImp.findById(id)), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(id)), HttpStatus.OK);
+        }
+    }
+
     @GetMapping("/{id}")
     @CrossOrigin
-    public ResponseEntity<?> findCourseById(@PathVariable int id, @RequestBody TokenFormat token){
-        if(token.getToken().equals("")){
-            return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
-        }
-        String temp = token.getToken();
-        coursesServiceImp.findById(id);
-        if(jwtProvider.validationToken(temp)){
-            String username = jwtProvider.decodeToken(temp);
-            int user_id = userServiceImp.findUserByUsername(username).getId();
-            List<Map<String, ?>> list = userCourseServiceImp.checkMyCourse(user_id, id);
-            if(list.size() == 0){
-                return new ResponseEntity<ResponseFormat>(new ResponseFormat("false", coursesServiceImp.findById(id)), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<ResponseFormat>(new ResponseFormat("true", coursesServiceImp.findById(id)), HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> findCourseById(@PathVariable int id){
+        return new ResponseEntity<Courses>(coursesServiceImp.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -105,18 +102,6 @@ public class CourseController {
             }
         }
         return new ResponseEntity<String>("", HttpStatus.CREATED);
-    }
-
-    private static class TokenFormat{
-        String token;
-
-        public String getToken() {
-            return token;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
-        }
     }
 
     private static class CourseFormat{
