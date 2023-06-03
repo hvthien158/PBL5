@@ -36,6 +36,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	AuthenticationManager authenticationManager;
 	
 //	private Gson gson = new Gson();
+	static boolean isNumeric(String str){
+		try {
+			Double.parseDouble(str);
+			return true;
+		} catch (Exception e){
+			return false;
+		}
+	}
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -44,6 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		if(request.getServletPath().equals("/login")
 			|| request.getServletPath().equals("/blog/all")
 			|| request.getServletPath().equals("/course/all")
+			|| (request.getServletPath().startsWith("/course/") && isNumeric(request.getServletPath().substring(8)))
+			|| request.getServletPath().equals("/register")
 			|| request.getServletPath().equals("/me")){
 			filterChain.doFilter(request, response);
 		} else {
