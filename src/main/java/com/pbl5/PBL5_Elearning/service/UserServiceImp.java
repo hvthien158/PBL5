@@ -19,4 +19,6 @@ public interface UserServiceImp {
 	public Users saveNewUser(Users users);
 
 	public List<Map<String, ?>> searchByName(String name);
+
+	public Users updateUser(Users users);
 }

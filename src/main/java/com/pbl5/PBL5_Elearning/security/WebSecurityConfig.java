@@ -54,7 +54,7 @@ public class WebSecurityConfig {
 			.and().authorizeHttpRequests()
 			.requestMatchers("/login").permitAll()
 			.requestMatchers("/register").permitAll()
-			.requestMatchers("/blog/all").permitAll()
+			.requestMatchers("/blog/*").permitAll()
 			.requestMatchers("/course/*").permitAll()
 			.requestMatchers("/course").authenticated()
 			.requestMatchers("/me").permitAll()

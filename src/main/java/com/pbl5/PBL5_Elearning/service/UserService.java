@@ -52,6 +52,11 @@ public class UserService implements UserServiceImp{
 		return userRepository.customSearchByHotenOrEmail(name);
 	}
 
+	@Override
+	public Users updateUser(Users users) {
+		return userRepository.save(users);
+	}
+
 
 	@Override
 	public List<Users> findAllUsers() {

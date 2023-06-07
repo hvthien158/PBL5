@@ -4,4 +4,6 @@ import com.pbl5.PBL5_Elearning.entity.Roles;
 
 public interface RoleServiceImp {
     public Roles findByName(String name);
+
+    public Roles findById(int id);
 }
