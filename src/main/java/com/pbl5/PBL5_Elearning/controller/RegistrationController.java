@@ -2,6 +2,7 @@ package com.pbl5.PBL5_Elearning.controller;
 
 import com.pbl5.PBL5_Elearning.entity.Roles;
 import com.pbl5.PBL5_Elearning.entity.Users;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.RoleServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
 import jakarta.persistence.Column;
@@ -27,12 +28,12 @@ public class RegistrationController {
 
         // add check for username exists in a DB
         if(userServiceImp.existUser(signUpDto.getUsername())){
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
 
         // add check for email exists in DB
         if(userServiceImp.existEmail(signUpDto.getEmail())){
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Email is already taken!"), HttpStatus.BAD_REQUEST);
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String passwordEncode = bCryptPasswordEncoder.encode(signUpDto.getPassword());
@@ -55,7 +56,7 @@ public class RegistrationController {
 
         userServiceImp.saveNewUser(user);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("User registered successfully"), HttpStatus.CREATED);
 
     }
 

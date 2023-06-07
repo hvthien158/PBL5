@@ -18,4 +18,8 @@ public interface CoursesServiceImp {
     public Courses insertNewCourse(Courses courses);
 
     public List<Map<String, ?>> searchByName(String name);
+
+    public void deleteCourse(int id);
+
+    public Courses updateCourse(Courses courses);
 }

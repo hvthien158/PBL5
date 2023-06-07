@@ -5,6 +5,7 @@ import com.pbl5.PBL5_Elearning.entity.Courses;
 import com.pbl5.PBL5_Elearning.entity.Teacher;
 import com.pbl5.PBL5_Elearning.entity.Users;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
 import com.pbl5.PBL5_Elearning.service.TeacherServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
@@ -46,7 +47,7 @@ public class RememberAccessController {
                 return new ResponseEntity<Users>(users, HttpStatus.OK);
             }
         } else {
-            return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Not found"), HttpStatus.BAD_REQUEST);
         }
     }
 

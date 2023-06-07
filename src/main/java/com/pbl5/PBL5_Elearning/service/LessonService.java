@@ -14,4 +14,9 @@ public class LessonService implements LessonServiceImp{
     public Lesson insertNewLesson(Lesson lesson) {
         return lessonRepository.saveAndFlush(lesson);
     }
+
+    @Override
+    public void deleteLesson(int id) {
+        lessonRepository.deleteById(id);
+    }
 }

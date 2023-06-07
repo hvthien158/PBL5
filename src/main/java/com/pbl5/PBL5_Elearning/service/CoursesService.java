@@ -46,4 +46,14 @@ public class CoursesService implements CoursesServiceImp{
     public List<Map<String, ?>> searchByName(String name) {
         return coursesRepository.customSearchByName(name);
     }
+
+    @Override
+    public void deleteCourse(int id) {
+        coursesRepository.deleteById(id);
+    }
+
+    @Override
+    public Courses updateCourse(Courses courses) {
+        return coursesRepository.save(courses);
+    }
 }

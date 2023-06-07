@@ -1,9 +1,8 @@
 package com.pbl5.PBL5_Elearning.controller;
 
-import com.pbl5.PBL5_Elearning.entity.Courses;
-import com.pbl5.PBL5_Elearning.entity.Lesson;
-import com.pbl5.PBL5_Elearning.entity.Plan;
+import com.pbl5.PBL5_Elearning.entity.*;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,7 @@ public class CourseController {
             return new ResponseEntity<List<Courses>>(coursesServiceImp.find(), HttpStatus.OK);
         }catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<String>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Course not found"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -72,6 +71,55 @@ public class CourseController {
     @CrossOrigin
     public ResponseEntity<?> insertNewCourse(@RequestBody CourseFormat coursesFormat){
         Courses coursesNew = new Courses();
+        modifyCourse(coursesFormat, coursesNew);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("new course created"), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete/{id}")
+    @CrossOrigin
+    public ResponseEntity<?> deleteCourse(@PathVariable int id, @RequestHeader("Authorization") String token){
+        String token1 = token.substring(7);
+        if(jwtProvider.validationToken(token1)){
+            String username = jwtProvider.decodeToken(token1);
+            Users users = userServiceImp.findUserByUsername(username);
+            Courses courses = coursesServiceImp.findById(id);
+            if(courses.getTeacher().getId() != teacherServiceImp.findByUserId(users.getId()).getId()){ //course chỉ đc xóa bởi teacher đã tạo ra nó
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Not own this course"), HttpStatus.OK);
+            } else {
+                for(Plan plan : courses.getPlans()){
+                    planServiceImp.deletePlan(plan.getId());
+                }
+                for(Lesson lesson : courses.getLessons()){
+                    lessonServiceImp.deleteLesson(lesson.getId());
+                }
+                coursesServiceImp.deleteCourse(id);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/update/{id}")
+    @CrossOrigin
+    public ResponseEntity<?> updateBlog(@RequestBody CourseFormat coursesFormat, @PathVariable int id, @RequestHeader("Authorization") String token){
+        String token1 = token.substring(7);
+        if(jwtProvider.validationToken(token1)){
+            String username = jwtProvider.decodeToken(token1);
+            Users users = userServiceImp.findUserByUsername(username);
+            Courses courses = coursesServiceImp.findById(id);
+            if(courses.getTeacher().getId() != teacherServiceImp.findByUserId(users.getId()).getId()){ //course chỉ đc xóa bởi teacher đã tạo ra nó
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Not own this course"), HttpStatus.OK);
+            } else {
+                Courses coursesNew = coursesServiceImp.findById(id);
+                modifyCourse(coursesFormat, coursesNew);
+                coursesServiceImp.updateCourse(coursesNew);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
+    }
+
+    private void modifyCourse(@RequestBody CourseFormat coursesFormat, Courses coursesNew) {
         coursesNew.setImage(coursesFormat.getImage());
         coursesNew.setName(coursesFormat.getName());
         coursesNew.setStart(LocalDate.parse(coursesFormat.getStart()));
@@ -101,7 +149,6 @@ public class CourseController {
                 planServiceImp.insertNewPlan(plan);
             }
         }
-        return new ResponseEntity<String>("", HttpStatus.CREATED);
     }
 
     private static class CourseFormat{

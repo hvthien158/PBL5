@@ -4,4 +4,6 @@ import com.pbl5.PBL5_Elearning.entity.Lesson;
 
 public interface LessonServiceImp {
     public Lesson insertNewLesson(Lesson lesson);
+
+    public void deleteLesson(int id);
 }

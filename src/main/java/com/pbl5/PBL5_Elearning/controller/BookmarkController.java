@@ -1,6 +1,7 @@
 package com.pbl5.PBL5_Elearning.controller;
 
 import com.pbl5.PBL5_Elearning.entity.Bookmarks;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.BlogServiceImp;
 import com.pbl5.PBL5_Elearning.service.BookmarkServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
@@ -38,7 +39,7 @@ public class BookmarkController {
         bookmarks.setBlogs(blogServiceImp.findById(bookmarksFormat.getBlog_id()));
         bookmarks.setUsers(userServiceImp.findById(bookmarksFormat.getUser_id()));
         bookmarkServiceImp.insertNewBookmark(bookmarks);
-        return new ResponseEntity<String>("", HttpStatus.CREATED);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("new bookmark created"), HttpStatus.CREATED);
     }
 
     private static class BookmarksFormat{

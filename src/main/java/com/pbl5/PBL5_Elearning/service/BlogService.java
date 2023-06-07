@@ -33,4 +33,14 @@ public class BlogService implements BlogServiceImp {
     public List<Map<String, ?>> searchByTitle(String title) {
         return blogRepository.customSearchByTitle(title);
     }
+
+    @Override
+    public void deleteBlog(int id) {
+        blogRepository.deleteById(id);
+    }
+
+    @Override
+    public Blogs updateBlog(Blogs blogs) {
+        return blogRepository.save(blogs);
+    }
 }

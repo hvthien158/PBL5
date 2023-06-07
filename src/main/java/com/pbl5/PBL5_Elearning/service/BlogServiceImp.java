@@ -13,4 +13,9 @@ public interface BlogServiceImp {
     public Blogs findById(int id);
 
     public List<Map<String, ?>> searchByTitle(String title);
+
+    public void deleteBlog(int id);
+
+    public Blogs updateBlog(Blogs blogs);
+
 }

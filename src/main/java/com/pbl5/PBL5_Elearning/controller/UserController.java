@@ -3,6 +3,7 @@ package com.pbl5.PBL5_Elearning.controller;
 import com.pbl5.PBL5_Elearning.entity.User_Course;
 import com.pbl5.PBL5_Elearning.entity.Users;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,18 +35,18 @@ public class UserController {
     public ResponseEntity<?> changePassword(@RequestBody ChangePassFormat changePassFormat, @RequestHeader("Authorization") String token){
         String token1 = token.substring(7);
         if(jwtProvider.validationToken(token1)){
-            String username = jwtProvider.decodeToken(token);
+            String username = jwtProvider.decodeToken(token1);
             Users users = userServiceImp.findUserByUsername(username);
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             if(bCryptPasswordEncoder.matches(changePassFormat.getOld_pass(), users.getPassword())){
               users.setPassword(bCryptPasswordEncoder.encode(changePassFormat.getNew_pass()));
               userServiceImp.updateUser(users);
-              return new ResponseEntity<String>("", HttpStatus.OK);
+              return new ResponseEntity<MessageResponse>(new MessageResponse("change pass successfully"), HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Password not match", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Password not match"), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
     }
 
     private class ChangePassFormat{

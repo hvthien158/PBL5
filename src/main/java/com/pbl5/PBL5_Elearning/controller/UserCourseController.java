@@ -3,6 +3,7 @@ package com.pbl5.PBL5_Elearning.controller;
 import com.pbl5.PBL5_Elearning.entity.Courses;
 import com.pbl5.PBL5_Elearning.entity.User_Course;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserCourseServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
@@ -45,12 +46,12 @@ public class UserCourseController {
                 user_course.setUsers(userServiceImp.findById(user_id));
                 user_course.setCourses(coursesServiceImp.findById(course_id));
                 userCourseServiceImp.registerNewCourse(user_course);
-                return new ResponseEntity<String>("Register course: Done", HttpStatus.CREATED);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Register course successfully"), HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<String>("Registered", HttpStatus.OK);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Registered"), HttpStatus.OK);
             }
         }
-        return new ResponseEntity<String>("Token invalid", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
     }
 
     private static class ResponseFormat {

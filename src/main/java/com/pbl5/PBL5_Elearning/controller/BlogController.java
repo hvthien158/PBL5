@@ -3,6 +3,8 @@ package com.pbl5.PBL5_Elearning.controller;
 import com.pbl5.PBL5_Elearning.entity.Blogs;
 import com.pbl5.PBL5_Elearning.entity.Roles;
 import com.pbl5.PBL5_Elearning.entity.Users;
+import com.pbl5.PBL5_Elearning.helper.JwtProvider;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.BlogServiceImp;
 import com.pbl5.PBL5_Elearning.service.RoleServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
@@ -12,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -30,6 +33,9 @@ public class BlogController {
 
     @Autowired
     RoleServiceImp roleServiceImp;
+
+    @Autowired
+    JwtProvider jwtProvider;
 
     @GetMapping("/all")
     @CrossOrigin
@@ -65,7 +71,47 @@ public class BlogController {
         blogs.setCreated_at(LocalDate.parse(blogFormat.getCreated_at()));
         blogs.setUsers(userServiceImp.findById(blogFormat.getCreator()));
         blogServiceImp.saveNewBlog(blogs);
-        return new ResponseEntity<String>("", HttpStatus.CREATED);
+        return new ResponseEntity<MessageResponse>(new MessageResponse("new blog created"), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete/{id}")
+    @CrossOrigin
+    public ResponseEntity<?> deleteBlog(@PathVariable int id, @RequestHeader("Authorization") String token){
+        String token1 = token.substring(7);
+        if(jwtProvider.validationToken(token1)){
+            String username = jwtProvider.decodeToken(token1);
+            Users users = userServiceImp.findUserByUsername(username);
+            Blogs blogs = blogServiceImp.findById(id);
+            if(blogs.getUsers() != users.getId()){
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Not own this blog"), HttpStatus.OK);
+            } else {
+                blogServiceImp.deleteBlog(id);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/update/{id}")
+    @CrossOrigin
+    public ResponseEntity<?> updateBlog(@RequestBody UpdateFormat updateFormat, @PathVariable int id, @RequestHeader("Authorization") String token){
+
+        String token1 = token.substring(7);
+        if(jwtProvider.validationToken(token1)){
+            String username = jwtProvider.decodeToken(token1);
+            Users users = userServiceImp.findUserByUsername(username);
+            Blogs blogs = blogServiceImp.findById(id);
+            if(blogs.getUsers() != users.getId()){
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Not own this blog"), HttpStatus.OK);
+            } else {
+                blogs.setTitle(updateFormat.getTitle());
+                blogs.setContent(updateFormat.getContent());
+                blogs.setImage(updateFormat.getImage());
+                blogServiceImp.updateBlog(blogs);
+                return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
     }
 
     private static class BlogFormat{
@@ -295,6 +341,42 @@ public class BlogController {
 
         public void setRole(Roles role) {
             this.role = role;
+        }
+    }
+
+    private class UpdateFormat{
+        private String title;
+        private String image;
+        private String content;
+
+        public UpdateFormat(String title, String image, String content) {
+            this.title = title;
+            this.image = image;
+            this.content = content;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
     }
 }

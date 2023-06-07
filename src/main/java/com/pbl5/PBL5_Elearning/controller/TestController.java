@@ -1,6 +1,7 @@
 package com.pbl5.PBL5_Elearning.controller;
 
 import com.pbl5.PBL5_Elearning.entity.Test;
+import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.TestsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class TestController {
         try {
             return new ResponseEntity<List<Test>>(testsServiceImp.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>("Not Found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Not Found"), HttpStatus.BAD_REQUEST);
         }
     }
 

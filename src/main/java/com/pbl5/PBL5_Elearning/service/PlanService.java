@@ -13,4 +13,9 @@ public class PlanService implements PlanServiceImp{
     public Plan insertNewPlan(Plan plan) {
         return planRepository.saveAndFlush(plan);
     }
+
+    @Override
+    public void deletePlan(int id) {
+        planRepository.deleteById(id);
+    }
 }
