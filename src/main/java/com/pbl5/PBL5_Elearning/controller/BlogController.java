@@ -162,7 +162,7 @@ public class BlogController {
         }
     }
 
-    private class BlogResponseFormat{
+    private static class BlogResponseFormat{
         private int id;
         private String title;
         private String image;
@@ -228,7 +228,7 @@ public class BlogController {
         }
     }
 
-    private class UserFormat{
+    private static class UserFormat{
         private int id;
         private String username;
         private String email;
@@ -344,7 +344,7 @@ public class BlogController {
         }
     }
 
-    private class UpdateFormat{
+    private static class UpdateFormat{
         private String title;
         private String image;
         private String content;
