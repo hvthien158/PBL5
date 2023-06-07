@@ -1,5 +1,6 @@
 package com.pbl5.PBL5_Elearning.controller;
 
+import com.pbl5.PBL5_Elearning.entity.Courses;
 import com.pbl5.PBL5_Elearning.entity.User_Course;
 import com.pbl5.PBL5_Elearning.entity.Users;
 import com.pbl5.PBL5_Elearning.helper.JwtProvider;
@@ -49,7 +50,25 @@ public class UserController {
         return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
     }
 
-    private class ChangePassFormat{
+    @PostMapping("/update")
+    @CrossOrigin
+    public ResponseEntity<?> updateUser(@RequestBody UpdateFormat updateFormat, @RequestHeader("Authorization") String token){
+        String token1 = token.substring(7);
+        if(jwtProvider.validationToken(token1)){
+            String username = jwtProvider.decodeToken(token1);
+            Users users = userServiceImp.findUserByUsername(username);
+            users.setFullName(updateFormat.getFull_name());
+            users.setPhone(updateFormat.getPhone());
+            users.setAvatar(updateFormat.getAvatar());
+            users.setGender(updateFormat.getGender());
+            users.setAddress(updateFormat.getAddress());
+            userServiceImp.updateUser(users);
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+        }
+        return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
+    }
+
+    private static class ChangePassFormat{
         private String old_pass;
         private String new_pass;
 
@@ -67,6 +86,54 @@ public class UserController {
 
         public void setNew_pass(String new_pass) {
             this.new_pass = new_pass;
+        }
+    }
+
+    private static class UpdateFormat{
+        private String full_name;
+        private int gender;
+        private String address;
+        private String phone;
+        private String avatar;
+
+        public String getFull_name() {
+            return full_name;
+        }
+
+        public void setFull_name(String full_name) {
+            this.full_name = full_name;
+        }
+
+        public int getGender() {
+            return gender;
+        }
+
+        public void setGender(int gender) {
+            this.gender = gender;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
         }
     }
 }
