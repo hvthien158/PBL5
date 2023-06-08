@@ -47,7 +47,7 @@ public class RegistrationController {
         user.setAge(signUpDto.getAge());
         user.setAvatar(signUpDto.getAvatar());
         user.setGender(signUpDto.getGender());
-        user.setFullName(signUpDto.getFull_name());
+        user.setFullName(signUpDto.getFullName());
         user.setGoogleId(signUpDto.getGoogle_id());
         user.setPhone(signUpDto.getPhone());
 
@@ -65,7 +65,7 @@ public class RegistrationController {
         private String password;
         private String email;
         private String google_id;
-        private String full_name;
+        private String fullName;
         private int age;
         private int gender;
         private String address;
@@ -104,12 +104,12 @@ public class RegistrationController {
             this.google_id = google_id;
         }
 
-        public String getFull_name() {
-            return full_name;
+        public String getFullName() {
+            return fullName;
         }
 
-        public void setFull_name(String full_name) {
-            this.full_name = full_name;
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
 
         public int getAge() {

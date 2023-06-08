@@ -16,4 +16,7 @@ public interface UserCourseRepository extends JpaRepository<User_Course, Integer
     public List<Map<String, ?>> checkMyCourse(@PathVariable int user_id, @PathVariable int course_id);
 
     public List<User_Course> findAllByUsers(Users users);
+
+    @Query(nativeQuery = true, value = "call statistic()")
+    public List<Map<String, ?>> statistic();
 }

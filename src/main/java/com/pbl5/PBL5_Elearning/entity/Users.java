@@ -158,6 +158,9 @@ public class Users {
 
     public int getRole() {
         //MySQL tự động tăng bắt đầu từ 1, bên FE xử lí mảng bắt đầu từ 0 nên trả về giá trị trừ 1 để đồng bộ
+        //id: 0 - role: admin
+        //id: 1 - role: teacher
+        //id: 2 - role: user
         return role.getId() - 1;
     }
 

@@ -29,4 +29,9 @@ public class UserCourseService implements UserCourseServiceImp{
     public List<User_Course> findAllByUser(Users user) {
         return userCourseRepository.findAllByUsers(user);
     }
+
+    @Override
+    public List<Map<String, ?>> statistic() {
+        return userCourseRepository.statistic();
+    }
 }

@@ -12,4 +12,6 @@ public interface UserCourseServiceImp {
     public User_Course registerNewCourse(User_Course user_course);
 
     public List<User_Course> findAllByUser(Users user);
+
+    public List<Map<String, ?>> statistic();
 }

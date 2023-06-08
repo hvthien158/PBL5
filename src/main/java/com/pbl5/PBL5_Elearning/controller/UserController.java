@@ -57,13 +57,13 @@ public class UserController {
         if(jwtProvider.validationToken(token1)){
             String username = jwtProvider.decodeToken(token1);
             Users users = userServiceImp.findUserByUsername(username);
-            users.setFullName(updateFormat.getFull_name());
+            users.setFullName(updateFormat.getFullName());
             users.setPhone(updateFormat.getPhone());
             users.setAvatar(updateFormat.getAvatar());
             users.setGender(updateFormat.getGender());
             users.setAddress(updateFormat.getAddress());
             userServiceImp.updateUser(users);
-            return new ResponseEntity<MessageResponse>(new MessageResponse("Done"), HttpStatus.OK);
+            return new ResponseEntity<Users>(users, HttpStatus.OK);
         }
         return new ResponseEntity<MessageResponse>(new MessageResponse("Token invalid"), HttpStatus.BAD_REQUEST);
     }
@@ -90,18 +90,18 @@ public class UserController {
     }
 
     private static class UpdateFormat{
-        private String full_name;
+        private String fullName;
         private int gender;
         private String address;
         private String phone;
         private String avatar;
 
-        public String getFull_name() {
-            return full_name;
+        public String getFullName() {
+            return fullName;
         }
 
-        public void setFull_name(String full_name) {
-            this.full_name = full_name;
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
 
         public int getGender() {

@@ -56,7 +56,7 @@ public class RememberAccessController {
         private String username;
         private String email;
         private String googleId;
-        private String fullname;
+        private String fullName;
         private int age;
         private int gender;
         private String address;
@@ -68,12 +68,12 @@ public class RememberAccessController {
 
         private Set<Courses> courses;
 
-        public ResponseFormat(int id, String username, String email, String googleId, String fullname, int age, int gender, String address, String phone, String avatar, int role, Set<Blogs> blogs, Set<Courses> courses) {
+        public ResponseFormat(int id, String username, String email, String googleId, String fullName, int age, int gender, String address, String phone, String avatar, int role, Set<Blogs> blogs, Set<Courses> courses) {
             this.id = id;
             this.username = username;
             this.email = email;
             this.googleId = googleId;
-            this.fullname = fullname;
+            this.fullName = fullName;
             this.age = age;
             this.gender = gender;
             this.address = address;
@@ -116,12 +116,12 @@ public class RememberAccessController {
             this.googleId = googleId;
         }
 
-        public String getFullname() {
-            return fullname;
+        public String getFullName() {
+            return fullName;
         }
 
-        public void setFullname(String fullname) {
-            this.fullname = fullname;
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
 
         public int getAge() {
