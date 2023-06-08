@@ -7,7 +7,6 @@ import com.pbl5.PBL5_Elearning.payload.MessageResponse;
 import com.pbl5.PBL5_Elearning.service.CoursesServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserCourseServiceImp;
 import com.pbl5.PBL5_Elearning.service.UserServiceImp;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
